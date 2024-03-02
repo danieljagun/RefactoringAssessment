@@ -307,7 +307,7 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 		} else {
 			// find corresponding gender combo box value to current employee
 			while (!found && countGender < gender.length - 1) {
-				if (Character.toString(thisEmployee.getGender()).equalsIgnoreCase(gender[countGender]))
+				if (thisEmployee.getGender().toString().equalsIgnoreCase(gender[countGender]))
 					found = true;
 				else
 					countGender++;
@@ -531,18 +531,34 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 
 	// get values from text fields and create Employee object
 	private Employee getChangedDetails() {
-		boolean fullTime = false;
-		Employee theEmployee;
-		if (((String) fullTimeCombo.getSelectedItem()).equalsIgnoreCase("Yes"))
-			fullTime = true;
+		boolean fullTime = "Yes".equalsIgnoreCase((String) fullTimeCombo.getSelectedItem());
+		char genderChar = genderCombo.getSelectedItem().toString().charAt(0);
+		Employee.Gender gender;
 
-		theEmployee = new Employee(Integer.parseInt(idField.getText()), ppsField.getText().toUpperCase(),
-				surnameField.getText().toUpperCase(), firstNameField.getText().toUpperCase(),
-				genderCombo.getSelectedItem().toString().charAt(0), departmentCombo.getSelectedItem().toString(),
-				Double.parseDouble(salaryField.getText()), fullTime);
+		switch (genderChar) {
+			case 'M':
+				gender = Employee.Gender.MALE;
+				break;
+			case 'F':
+				gender = Employee.Gender.FEMALE;
+				break;
+			default:
+				gender = Employee.Gender.OTHER;
+				break;
+		}
 
-		return theEmployee;
+		return new Employee(
+				Integer.parseInt(idField.getText()),
+				ppsField.getText().toUpperCase(),
+				surnameField.getText().toUpperCase(),
+				firstNameField.getText().toUpperCase(),
+				gender,
+				departmentCombo.getSelectedItem().toString(),
+				Double.parseDouble(salaryField.getText()),
+				fullTime
+		);
 	}// end getChangedDetails
+
 
 	// add Employee object to fail
 	public void addRecord(Employee newEmployee) {
@@ -592,7 +608,7 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 			empDetails.addElement(currentEmployee.getPps());
 			empDetails.addElement(currentEmployee.getSurname());
 			empDetails.addElement(currentEmployee.getFirstName());
-			empDetails.addElement(new Character(currentEmployee.getGender()));
+			empDetails.addElement(currentEmployee.getGender().toString());
 			empDetails.addElement(currentEmployee.getDepartment());
 			empDetails.addElement(new Double(currentEmployee.getSalary()));
 			empDetails.addElement(new Boolean(currentEmployee.getFullTime()));

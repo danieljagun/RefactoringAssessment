@@ -66,46 +66,68 @@ public class RandomFile {
 	} // end closeFile
 
 	// Add records to file
+// Add records to file
 	public long addRecords(Employee employeeToAdd) {
-		Employee newEmployee = employeeToAdd;
 		long currentRecordStart = 0;
 
 		// object to be written to file
 		RandomAccessEmployeeRecord record;
 
-		try // output values to file
-		{
-			record = new RandomAccessEmployeeRecord(newEmployee.getEmployeeId(), newEmployee.getPps(),
-					newEmployee.getSurname(), newEmployee.getFirstName(), newEmployee.getGender(),
-					newEmployee.getDepartment(), newEmployee.getSalary(), newEmployee.getFullTime());
+		try {
+			// Convert Gender enum to char
+			char genderChar;
+			switch (employeeToAdd.getGender()) {
+				case MALE:
+					genderChar = 'M';
+					break;
+				case FEMALE:
+					genderChar = 'F';
+					break;
+				default:
+					genderChar = 'O';
+					break;
+			}
 
-			output.seek(output.length());// Look for proper position
-			record.write(output);// Write object to file
+			record = new RandomAccessEmployeeRecord(employeeToAdd.getEmployeeId(), employeeToAdd.getPps(),
+					employeeToAdd.getSurname(), employeeToAdd.getFirstName(), genderChar,
+					employeeToAdd.getDepartment(), employeeToAdd.getSalary(), employeeToAdd.getFullTime());
+
+			output.seek(output.length()); // Look for proper position
+			record.write(output); // Write object to file
 			currentRecordStart = output.length();
-		} // end try
-		catch (IOException ioException) {
+		} catch (IOException ioException) {
 			JOptionPane.showMessageDialog(null, "Error writing to file!");
-		} // end catch
+		}
 
-		return currentRecordStart - RandomAccessEmployeeRecord.SIZE;// Return
-																	// position
-																	// where
-																	// object
-																	// starts in
-																	// the file
-	}// end addRecords
+		return currentRecordStart - RandomAccessEmployeeRecord.SIZE;
+	}
 
 	// Change details for existing object
 	public void changeRecords(Employee newDetails, long byteToStart) {
 		long currentRecordStart = byteToStart;
+
 		// object to be written to file
 		RandomAccessEmployeeRecord record;
-		Employee oldDetails = newDetails;
-		try // output values to file
-		{
-			record = new RandomAccessEmployeeRecord(oldDetails.getEmployeeId(), oldDetails.getPps(),
-					oldDetails.getSurname(), oldDetails.getFirstName(), oldDetails.getGender(),
-					oldDetails.getDepartment(), oldDetails.getSalary(), oldDetails.getFullTime());
+
+		// output values to file
+		try {
+			// Convert Gender enum to char
+			char genderChar;
+			switch (newDetails.getGender()) {
+				case MALE:
+					genderChar = 'M';
+					break;
+				case FEMALE:
+					genderChar = 'F';
+					break;
+				default:
+					genderChar = 'O'; // Assuming 'OTHER'
+					break;
+			}
+
+			record = new RandomAccessEmployeeRecord(newDetails.getEmployeeId(), newDetails.getPps(),
+					newDetails.getSurname(), newDetails.getFirstName(), genderChar,
+					newDetails.getDepartment(), newDetails.getSalary(), newDetails.getFullTime());
 
 			output.seek(currentRecordStart);// Look for proper position
 			record.write(output);// Write object to file
