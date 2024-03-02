@@ -130,7 +130,7 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 				ppsField.getText().toUpperCase(),
 				surnameField.getText().toUpperCase(),
 				firstNameField.getText().toUpperCase(),
-				genderCombo.getSelectedItem().toString().charAt(0),
+				getSelectedGender(),
 				departmentCombo.getSelectedItem().toString(),
 				Double.parseDouble(salaryField.getText()),
 				isFullTime()
@@ -138,6 +138,18 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 		this.parent.currentEmployee = theEmployee;
 		this.parent.addRecord(theEmployee);
 		this.parent.displayRecords(theEmployee);
+	}
+
+	private Employee.Gender getSelectedGender() {
+		String genderString = genderCombo.getSelectedItem().toString();
+		switch (genderString) {
+			case "MALE":
+				return Employee.Gender.MALE;
+			case "FEMALE":
+				return Employee.Gender.FEMALE;
+			default:
+				return Employee.Gender.OTHER;
+		}
 	}
 
 	private boolean isFullTime() {
