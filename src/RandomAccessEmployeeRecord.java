@@ -17,14 +17,11 @@ public class RandomAccessEmployeeRecord extends Employee {
 
    // Convert char gender to Gender enum
    private static Gender charToGender(char genderChar) {
-      switch (genderChar) {
-         case 'M':
-            return Gender.MALE;
-         case 'F':
-            return Gender.FEMALE;
-         default:
-            return Gender.OTHER;
-      }
+      return switch (genderChar) {
+         case 'M' -> Gender.MALE;
+         case 'F' -> Gender.FEMALE;
+         default -> Gender.OTHER;
+      };
    }
 
    // Read a record from specified RandomAccessFile
@@ -63,14 +60,11 @@ public class RandomAccessEmployeeRecord extends Employee {
 
    // Convert Gender enum to char gender
    private char genderToChar(Gender gender) {
-      switch (gender) {
-         case MALE:
-            return 'M';
-         case FEMALE:
-            return 'F';
-         default:
-            return 'O';
-      }
+      return switch (gender) {
+         case MALE -> 'M';
+         case FEMALE -> 'F';
+         default -> 'O';
+      };
    }
 
    // Ensure that string is correct length

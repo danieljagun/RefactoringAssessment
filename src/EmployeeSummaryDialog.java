@@ -40,7 +40,7 @@ public class EmployeeSummaryDialog extends JDialog implements ActionListener {
 
 		JPanel summaryDialog = new JPanel(new BorderLayout());
 		DefaultTableModel tableModel = new DefaultTableModel(allEmployees, new Vector<String>(Arrays.asList(headerName))) {
-			Class[] columnTypes = new Class[]{Integer.class, String.class, String.class, String.class, Character.class, String.class, Double.class, Boolean.class};
+			final Class[] columnTypes = new Class[]{Integer.class, String.class, String.class, String.class, Character.class, String.class, Double.class, Boolean.class};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
@@ -79,7 +79,7 @@ public class EmployeeSummaryDialog extends JDialog implements ActionListener {
 
 	static class DecimalFormatRenderer extends DefaultTableCellRenderer {
 		 private static final DecimalFormat format = new DecimalFormat(
-		 "\u20ac ###,###,##0.00" );
+		 "€ ###,###,##0.00" );
 
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 			super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);

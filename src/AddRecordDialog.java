@@ -15,7 +15,7 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 	private JTextField idField, ppsField, surnameField, firstNameField, salaryField;
 	private JComboBox<String> genderCombo, departmentCombo, fullTimeCombo;
 	private JButton save, cancel;
-	private EmployeeDetails parent;
+	private final EmployeeDetails parent;
 	private static final Color ERROR_COLOR = new Color(255, 150, 150);
 	// constructor for add record dialog
 	public AddRecordDialog(EmployeeDetails parent) {
@@ -41,16 +41,16 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 		empDetails.setBorder(BorderFactory.createTitledBorder("Employee Details"));
 
 		empDetails.add(createLabel("ID:"), "growx, pushx");
-		empDetails.add(idField = createNonEditableTextField(20), "growx, pushx, wrap");
+		empDetails.add(idField = createNonEditableTextField(), "growx, pushx, wrap");
 
 		empDetails.add(createLabel("PPS Number:"), "growx, pushx");
-		empDetails.add(ppsField = createTextField(20, new JTextFieldLimit(9)), "growx, pushx, wrap");
+		empDetails.add(ppsField = createTextField(new JTextFieldLimit(9)), "growx, pushx, wrap");
 
 		empDetails.add(createLabel("Surname:"), "growx, pushx");
-		empDetails.add(surnameField = createTextField(20), "growx, pushx, wrap");
+		empDetails.add(surnameField = createTextField(), "growx, pushx, wrap");
 
 		empDetails.add(createLabel("First Name:"), "growx, pushx");
-		empDetails.add(firstNameField = createTextField(20), "growx, pushx, wrap");
+		empDetails.add(firstNameField = createTextField(), "growx, pushx, wrap");
 
 		empDetails.add(createLabel("Gender:"), "growx, pushx");
 		empDetails.add(genderCombo = createComboBox(this.parent.gender), "growx, pushx, wrap");
@@ -59,7 +59,7 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 		empDetails.add(departmentCombo = createComboBox(this.parent.department), "growx, pushx, wrap");
 
 		empDetails.add(createLabel("Salary:"), "growx, pushx");
-		empDetails.add(salaryField = createTextField(20), "growx, pushx, wrap");
+		empDetails.add(salaryField = createTextField(), "growx, pushx, wrap");
 
 		empDetails.add(createLabel("Full Time:"), "growx, pushx");
 		empDetails.add(fullTimeCombo = createComboBox(this.parent.fullTime), "growx, pushx, wrap");
@@ -75,12 +75,12 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 		return new JLabel(text);
 	}
 
-	private JTextField createTextField(int width) {
-		return new JTextField(width);
+	private JTextField createTextField() {
+		return new JTextField(20);
 	}
 
-	private JTextField createTextField(int width, Document document) {
-		JTextField field = new JTextField(width);
+	private JTextField createTextField(Document document) {
+		JTextField field = new JTextField(20);
 		field.setDocument(document);
 		return field;
 	}
@@ -89,8 +89,8 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 		return new JComboBox<>(items);
 	}
 
-	private JTextField createNonEditableTextField(int width) {
-		JTextField field = new JTextField(width);
+	private JTextField createNonEditableTextField() {
+		JTextField field = new JTextField(20);
 		field.setEditable(false);
 		return field;
 	}
@@ -130,14 +130,11 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 
 	private Employee.Gender getSelectedGender() {
 		String genderString = genderCombo.getSelectedItem().toString();
-		switch (genderString) {
-			case "MALE":
-				return Employee.Gender.MALE;
-			case "FEMALE":
-				return Employee.Gender.FEMALE;
-			default:
-				return Employee.Gender.OTHER;
-		}
+		return switch (genderString) {
+			case "MALE" -> Employee.Gender.MALE;
+			case "FEMALE" -> Employee.Gender.FEMALE;
+			default -> Employee.Gender.OTHER;
+		};
 	}
 
 	private boolean isFullTime() {
