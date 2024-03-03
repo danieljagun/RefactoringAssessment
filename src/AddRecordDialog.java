@@ -233,6 +233,3 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 		dispose();
 	}
 }// end class AddRecordDialog
-
-
-//Complete the refactoring on the after code and explain why and how you decided to apply the refactoring

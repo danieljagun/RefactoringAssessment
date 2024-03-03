@@ -8,9 +8,8 @@ import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.text.DecimalFormat;
-import java.util.Arrays;
-import java.util.Vector;
+import java.text.*;
+import java.util.*;
 
 import net.miginfocom.swing.MigLayout;
 
