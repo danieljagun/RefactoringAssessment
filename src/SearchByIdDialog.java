@@ -1,96 +1,68 @@
 /*
- * 
+ *
  * This is the dialog for Employee search by ID
- * 
+ *
  * */
 
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.GridLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.border.EtchedBorder;
-
 public class SearchByIdDialog extends JDialog implements ActionListener {
-	EmployeeDetails parent;
-	JButton search, cancel;
-	JTextField searchField;
-	// constructor for SearchByIdDialog 
+	private final EmployeeDetails parent;
+	private final JTextField searchField = new JTextField(20);
+	private final JButton search = new JButton("Search");
+	private final JButton cancel = new JButton("Cancel");
+	// constructor for SearchByIdDialog
 	public SearchByIdDialog(EmployeeDetails parent) {
-		setTitle("Search by Surname");
+		setTitle("Search by ID");
 		setModal(true);
 		this.parent = parent;
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-		JScrollPane scrollPane = new JScrollPane(searchPane());
-		setContentPane(scrollPane);
+		setLayout(new BorderLayout());
+		add(createSearchPanel(), BorderLayout.CENTER);
 
-		getRootPane().setDefaultButton(search);
-		
-		setSize(500, 190);
-		setLocation(350, 250);
+		pack();
+		setLocationRelativeTo(parent);
 		setVisible(true);
-	}// end SearchByIdDialog
-	
+	}
+
 	// initialize search container
-	public Container searchPane() {
-		JPanel searchPanel = new JPanel(new GridLayout(3, 1));
-		JPanel textPanel = new JPanel();
-		JPanel buttonPanel = new JPanel();
-		JLabel searchLabel;
+	private JPanel createSearchPanel() {
+		JPanel panel = new JPanel(new BorderLayout(5, 5));
+		panel.add(new JLabel("Enter ID:"), BorderLayout.WEST);
+		panel.add(searchField, BorderLayout.CENTER);
 
-		searchPanel.add(new JLabel("Search by ID"));
-
-		textPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
-		textPanel.add(searchLabel = new JLabel("Enter ID:"));
-		searchLabel.setFont(this.parent.font1);
-		textPanel.add(searchField = new JTextField(20));
-		searchField.setFont(this.parent.font1);
-		searchField.setDocument(new JTextFieldLimit(20));
-		
-		buttonPanel.add(search = new JButton("Search"));
+		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		search.addActionListener(this);
-		search.requestFocus();
-		
-		buttonPanel.add(cancel = new JButton("Cancel"));
 		cancel.addActionListener(this);
+		buttonPanel.add(search);
+		buttonPanel.add(cancel);
 
-		searchPanel.add(textPanel);
-		searchPanel.add(buttonPanel);
-
-		return searchPanel;
+		panel.add(buttonPanel, BorderLayout.SOUTH);
+		return panel;
 	}// end searchPane
 
 	// action listener for save and cancel button
 	public void actionPerformed(ActionEvent e) {
-		// if option search, search for Employee
 		if (e.getSource() == search) {
-			// try get correct valus from text field
-			try {
-				Double.parseDouble(searchField.getText());
-				this.parent.searchByIdField.setText(searchField.getText());
-				// search Employee by ID
-				this.parent.searchEmployeeById();
-				dispose();// dispose dialog
-			}// end try
-			catch (NumberFormatException num) {
-				// display message and set colour to text field if entry is wrong
-				searchField.setBackground(new Color(255, 150, 150));
-				JOptionPane.showMessageDialog(null, "Wrong ID format!");
-			}// end catch
-		}// end if
-		// else dispose dialog
-		else if (e.getSource() == cancel)
+			performSearch();
+		} else if (e.getSource() == cancel) {
 			dispose();
+		}
 	}// end actionPerformed
+
+	private void performSearch() {
+		try {
+			int id = Integer.parseInt(searchField.getText());
+			parent.searchByIdField.setText(String.valueOf(id));
+			parent.searchEmployeeById();
+			dispose();
+		} catch (NumberFormatException ex) {
+			searchField.setBackground(new Color(255, 150, 150));
+			JOptionPane.showMessageDialog(this, "Wrong ID format!", "Error", JOptionPane.ERROR_MESSAGE);
+		}
+	}
 }// end class searchByIdDialog

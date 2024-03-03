@@ -33,7 +33,8 @@ public class RandomAccessEmployeeRecord extends Employee {
       setPps(readName(file));
       setSurname(readName(file));
       setFirstName(readName(file));
-      setGender(charToGender(file.readChar())); // Convert char to Gender enum
+      setGender(charToGender(file.readChar()));
+      setGender(charToGender(file.readChar()));
       setDepartment(readName(file));
       setSalary(file.readDouble());
       setFullTime(file.readBoolean());
@@ -74,18 +75,8 @@ public class RandomAccessEmployeeRecord extends Employee {
 
    // Ensure that string is correct length
    private void writeName(RandomAccessFile file, String name) throws IOException {
-      StringBuilder buffer = new StringBuilder();
-      if (name != null) {
-         buffer.append(name);
-         int spacesToAdd = 20 - name.length();
-         for (int i = 0; i < spacesToAdd; i++) {
-            buffer.append(' ');
-         }
-      } else {
-         for (int i = 0; i < 20; i++) {
-            buffer.append(' ');
-         }
-      }
-      file.writeChars(buffer.toString());
+      if (name == null) name = "";
+      String formattedName = String.format("%-20s", name);
+      file.writeChars(formattedName);
    }
 }

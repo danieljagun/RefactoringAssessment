@@ -9,20 +9,16 @@
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
+import javax.swing.event.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
-import java.text.DecimalFormat;
-import java.util.Random;
-import java.util.Vector;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import java.io.*;
+import java.nio.file.*;
+import java.text.*;
+import java.util.*;
+import java.util.function.*;
+
 
 public class EmployeeDetails extends JFrame implements ActionListener, ItemListener, DocumentListener, WindowListener {
 	// decimal format for inactive currency text field
