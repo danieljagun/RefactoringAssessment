@@ -4,10 +4,8 @@
  * 
  * */
 
-import javax.swing.JOptionPane;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.PlainDocument;
+import javax.swing.*;
+import javax.swing.text.*;
 // set text field input limits
 class JTextFieldLimit extends PlainDocument {
   private int limit;

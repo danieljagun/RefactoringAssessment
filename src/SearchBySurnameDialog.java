@@ -4,20 +4,11 @@
  * 
  * */
 
-import java.awt.Container;
-import java.awt.GridLayout;
+import javax.swing.*;
+import javax.swing.border.EtchedBorder;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.border.EtchedBorder;
 
 public class SearchBySurnameDialog extends JDialog implements ActionListener{
 	EmployeeDetails parent;
@@ -83,3 +74,4 @@ public class SearchBySurnameDialog extends JDialog implements ActionListener{
 			dispose();// dispose dialog
 	}// end actionPerformed
 }// end class SearchBySurnameDialog
+
